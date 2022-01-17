@@ -51,7 +51,7 @@ jobs:
 
   debian_llvm13_nightly:
     runs-on: ubuntu-20.04
-    container: rust:nightly
+    container: rust:1.58.0
 
     steps:
       - uses: actions/checkout@v2
@@ -60,10 +60,11 @@ jobs:
         run: |
           apt update -y
           apt install -y clang-13 lld-13 curl
+          rustup install nightly
 
       - name: Compile Rust
         run: |
-          CC=clang-13 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-13 -Clink-arg=-fuse-ld=lld-13" cargo build --release
+          CC=clang-13 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-13 -Clink-arg=-fuse-ld=lld-13" cargo +nightly build --release
 
       - name: objdump
         run: |
