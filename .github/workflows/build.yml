@@ -48,10 +48,9 @@ jobs:
         run: |
           objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
 
-
-  debian_llvm13_nightly:
+  ubt2110_llvm13_nightly:
     runs-on: ubuntu-20.04
-    container: rust:1.58.0
+    container: ubuntu:21.10
 
     steps:
       - uses: actions/checkout@v2
@@ -60,10 +59,13 @@ jobs:
         run: |
           apt update -y
           apt install -y clang-13 lld-13 curl
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          PATH="$HOME/.cargo/bin:$PATH"
           rustup install nightly
 
       - name: Compile Rust
         run: |
+          PATH="$HOME/.cargo/bin:$PATH"
           CC=clang-13 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-13 -Clink-arg=-fuse-ld=lld-13" cargo +nightly build --release
 
       - name: objdump
