@@ -81,3 +81,29 @@ jobs:
         run: |
           objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
 
+  container_ubuntu2110_llvm13:
+    runs-on: ubuntu-20.04
+    container: ubuntu:21.10
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Sys Info
+        run: |
+          apt update -y
+          apt install -y clang-13 lld-13 curl
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          source $HOME/.cargo/env
+          # -------------------
+          cat /etc/*release
+          rustc --version 
+          clang --version
+          ldd --version
+
+      - name: Compile Rust
+        run: |
+          CC=clang-13 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-13 -Clink-arg=-fuse-ld=lld-13" cargo build --release
+
+      - name: objdump
+        run: |
+          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
