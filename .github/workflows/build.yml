@@ -24,27 +24,7 @@ jobs:
 
       - name: objdump
         run: |
-          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
-
-  bad_example:
-    runs-on: ubuntu-20.04
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Sys Info
-        run: |
-          sudo apt update -y
-          sudo apt install -y clang lld
-          rustup install 1.46.0
-
-      - name: Compile Rust
-        run: |
-          CC=clang RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang -Clink-arg=-fuse-ld=lld" cargo +1.46.0 build --release
-
-      - name: objdump
-        run: |
-          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
+          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3 -P3
 
   ubt2110_llvm13_stable:
     runs-on: ubuntu-20.04
@@ -66,7 +46,7 @@ jobs:
 
       - name: objdump
         run: |
-          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
+          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3 -P3
 
   debiansid_llvm13_nightly:
     runs-on: ubuntu-20.04
@@ -91,4 +71,4 @@ jobs:
 
       - name: objdump
         run: |
-          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
+          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3 -P3
