@@ -4,9 +4,10 @@ on: push
 
 env:
   DEBIAN_FRONTEND: noninteractive
+  PATH: "$HOME/.cargo/bin:$PATH"
 
 jobs:
-  ubuntu2004:
+  ubt2004_llvm9_142:
     runs-on: ubuntu-20.04
 
     steps:
@@ -30,7 +31,7 @@ jobs:
         run: |
           objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
 
-  ubuntu2004_latest:
+  ubt2004_llvm10_146:
     runs-on: ubuntu-20.04
 
     steps:
@@ -41,10 +42,6 @@ jobs:
           sudo apt update -y
           sudo apt install -y clang-10 lld-10
           rustup install 1.46.0
-          # -------------------
-          cat /etc/*release
-          rustc --version 
-          clang --version
 
       - name: Compile Rust
         run: |
@@ -54,7 +51,7 @@ jobs:
         run: |
           objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
 
-  container_ubuntu2110:
+  ubt2110_llvm13_latest:
     runs-on: ubuntu-20.04
     container: ubuntu:21.10
 
@@ -63,49 +60,12 @@ jobs:
 
       - name: Sys Info
         run: |
-          apt update -y
-          apt install -y clang-9 lld-9 curl
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
-          PATH="$HOME/.cargo/bin:$PATH"
-          rustup install 1.42.0
-          # -------------------
-          cat /etc/*release
-          rustc --version 
-          clang-9 --version
-
-      - name: Compile Rust
-        run: |
-          PATH="$HOME/.cargo/bin:$PATH"
-          CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo +1.42.0 build --release
-
-      - name: objdump
-        run: |
-          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
-
-  container_ubuntu2110_llvm13:
-    runs-on: ubuntu-20.04
-    container: ubuntu:21.10
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Sys Info
-        run: |
-          whoami
-          pwd
-          ls
           apt update -y
           apt install -y clang-13 lld-13 curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
-          PATH="$HOME/.cargo/bin:$PATH"
-          # -------------------
-          cat /etc/*release
-          rustc --version 
-          clang-13 --version
 
       - name: Compile Rust
         run: |
-          PATH="$HOME/.cargo/bin:$PATH"
           CC=clang-13 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-13 -Clink-arg=-fuse-ld=lld-13" cargo build --release
 
       - name: objdump
