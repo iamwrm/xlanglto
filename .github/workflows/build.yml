@@ -38,7 +38,7 @@ jobs:
         run: |
           sudo apt update -y
           sudo apt install -y clang-10 lld-10
-          rustup install 1.52.0
+          rustup install 1.46.0
           # -------------------
           cat /etc/*release
           rustc --version 
@@ -47,7 +47,7 @@ jobs:
 
       - name: Compile Rust
         run: |
-          CC=clang-10 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-10 -Clink-arg=-fuse-ld=lld-10" cargo +1.52.0 build --release
+          CC=clang-10 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-10 -Clink-arg=-fuse-ld=lld-10" cargo +1.46.0 build --release
 
       - name: objdump
         run: |
