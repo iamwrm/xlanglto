@@ -75,6 +75,7 @@ jobs:
 
       - name: Compile Rust
         run: |
+          PATH="$HOME/.cargo/bin:$PATH"
           CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo +1.42.0 build --release
 
       - name: objdump
@@ -104,6 +105,7 @@ jobs:
 
       - name: Compile Rust
         run: |
+          PATH="$HOME/.cargo/bin:$PATH"
           CC=clang-13 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-13 -Clink-arg=-fuse-ld=lld-13" cargo build --release
 
       - name: objdump
