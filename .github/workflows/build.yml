@@ -24,7 +24,7 @@ jobs:
         run: |
           objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
 
-  ubuntu2110:
+  container_ubuntu2110:
     runs-on: ubuntu-20.04
     container: ubuntu:21.10
 
@@ -34,8 +34,8 @@ jobs:
       - name: Sys Info
         run: |
           cat /etc/*release
-          sudo apt update -y
-          sudo apt install -y clang-9 lld-9
+          apt update -y
+          apt install -y clang-9 lld-9
           rustup install 1.42.0
 
       - name: Compile Rust
