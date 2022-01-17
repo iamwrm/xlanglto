@@ -1,0 +1,19 @@
+name: ci
+
+on: push
+
+jobs:
+  build_docker_image:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Compile Rust
+      run: |
+        CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo build --release
+
+    - name: objdump
+      run: |
+        objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
+    
