@@ -50,7 +50,7 @@ jobs:
 
   ubt2110_llvm13_nightly:
     runs-on: ubuntu-20.04
-    container: ubuntu:21.10
+    container: debian:sid
 
     steps:
       - uses: actions/checkout@v2
@@ -58,6 +58,7 @@ jobs:
       - name: Sys Info
         run: |
           apt update -y
+          apt upgrade -y
           apt install -y clang-13 lld-13 curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           PATH="$HOME/.cargo/bin:$PATH"
