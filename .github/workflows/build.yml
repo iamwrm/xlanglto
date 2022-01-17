@@ -12,6 +12,7 @@ jobs:
       - name: Sys Info
         run: |
           cat /etc/*release
+          sudo apt update -y
           sudo apt install -y clang-9
           rustup install 1.42.0
 
@@ -33,6 +34,7 @@ jobs:
       - name: Sys Info
         run: |
           cat /etc/*release
+          sudo apt update -y
           sudo apt install -y clang-9
           rustup install 1.42.0
 
