@@ -99,6 +99,8 @@ jobs:
           apt update -y
           apt install -y clang-13 lld-13 curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
+          echo $HOME/.cargo/env
+          ls $HOME/.cargo/
           source $HOME/.cargo/env
           # -------------------
           cat /etc/*release
