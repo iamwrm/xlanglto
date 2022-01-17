@@ -4,7 +4,6 @@ on: push
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  PATH: "$HOME/.cargo/bin:$PATH"
 
 jobs:
   ubt2004_llvm9_142:
@@ -15,13 +14,8 @@ jobs:
 
       - name: Sys Info
         run: |
-          sudo apt update -y
-          sudo apt install -y clang-9 lld-9
+          sudo apt update -y && sudo apt install -y clang-9 lld-9
           rustup install 1.42.0
-          # -------------------
-          cat /etc/*release
-          rustc --version 
-          clang --version
 
       - name: Compile Rust
         run: |
@@ -66,7 +60,33 @@ jobs:
 
       - name: Compile Rust
         run: |
+          PATH="$HOME/.cargo/bin:$PATH"
           CC=clang-13 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-13 -Clink-arg=-fuse-ld=lld-13" cargo build --release
+
+      - name: objdump
+        run: |
+          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
+
+  arch_latest_latest:
+    runs-on: ubuntu-20.04
+    container: archlinux:latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Sys Info
+        run: |
+          pacman -Syu --no-confirm && pacman -S --noconfirm clang lld curl
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          PATH="$HOME/.cargo/bin:$PATH"
+          clang --version
+          lld --version
+          rustc --version
+
+      - name: Compile Rust
+        run: |
+          PATH="$HOME/.cargo/bin:$PATH"
+          CC=clang RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang -Clink-arg=-fuse-ld=lld" cargo build --release
 
       - name: objdump
         run: |
