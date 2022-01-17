@@ -76,7 +76,7 @@ jobs:
 
       - name: Sys Info
         run: |
-          pacman -Syu --no-confirm && pacman -S --noconfirm clang lld curl
+          pacman -Syu --noconfirm && pacman -S --noconfirm clang lld curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           PATH="$HOME/.cargo/bin:$PATH"
           clang --version
