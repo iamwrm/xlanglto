@@ -37,7 +37,8 @@ jobs:
       - name: Sys Info
         run: |
           sudo apt update -y
-          sudo apt install -y clang lld
+          sudo apt install -y clang-10 lld-10
+          rustup install 1.52.0
           # -------------------
           cat /etc/*release
           rustc --version 
@@ -46,7 +47,7 @@ jobs:
 
       - name: Compile Rust
         run: |
-          CC=clang RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang -Clink-arg=-fuse-ld=lld" cargo build --release
+          CC=clang-10 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-10 -Clink-arg=-fuse-ld=lld-10" cargo +1.52.0 build --release
 
       - name: objdump
         run: |
@@ -65,6 +66,7 @@ jobs:
           apt install -y clang-9 lld-9 curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           rustup install 1.42.0
+          source $HOME/.cargo/env
           # -------------------
           cat /etc/*release
           rustc --version 
