@@ -62,19 +62,16 @@ jobs:
 
       - name: Sys Info
         run: |
-          whoami
-          pwd
-          ls
           apt update -y
           apt install -y clang-9 lld-9 curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
-          source $HOME/.cargo/env
+          PATH="$HOME/.cargo/bin:$PATH"
           rustup install 1.42.0
           # -------------------
           cat /etc/*release
           rustc --version 
-          clang --version
-          ldd --version
+          clang-9 --version
+          ldd-9 --version
 
       - name: Compile Rust
         run: |
@@ -103,8 +100,8 @@ jobs:
           # -------------------
           cat /etc/*release
           rustc --version 
-          clang --version
-          ldd --version
+          clang-13 --version
+          ldd-13 --version
 
       - name: Compile Rust
         run: |
