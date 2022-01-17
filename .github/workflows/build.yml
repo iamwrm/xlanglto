@@ -80,7 +80,6 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           PATH="$HOME/.cargo/bin:$PATH"
           clang --version
-          lld --version
           rustc --version
 
       - name: Compile Rust
