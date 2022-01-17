@@ -3,17 +3,42 @@ name: ci
 on: push
 
 jobs:
-  build_docker_image:
+  ubuntu2004:
     runs-on: ubuntu-20.04
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Compile Rust
-      run: |
-        CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo build --release
+      - name: Sys Info
+        run: |
+          cat /etc/*release
 
-    - name: objdump
-      run: |
-        objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
-    
+      - name: Compile Rust
+        run: |
+          sudo apt install -y clang-9 ldd-9
+          CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo build --release
+
+      - name: objdump
+        run: |
+          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
+
+  ubuntu2110:
+    runs-on: ubuntu-20.04
+    container: ubuntu-21.10
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Sys Info
+        run: |
+          cat /etc/*release
+
+      - name: Compile Rust
+        run: |
+          sudo apt install -y clang-9 ldd-9
+          CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo build --release
+
+      - name: objdump
+        run: |
+          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
+
