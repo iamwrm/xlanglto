@@ -11,14 +11,42 @@ jobs:
 
       - name: Sys Info
         run: |
-          cat /etc/*release
           sudo apt update -y
           sudo apt install -y clang-9 lld-9
           rustup install 1.42.0
+          # -------------------
+          cat /etc/*release
+          rustc --version 
+          clang --verison
+          ldd --version
 
       - name: Compile Rust
         run: |
           CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo +1.42.0 build --release
+
+      - name: objdump
+        run: |
+          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
+
+  ubuntu2004_latest:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Sys Info
+        run: |
+          sudo apt update -y
+          sudo apt install -y clang lld
+          # -------------------
+          cat /etc/*release
+          rustc --version 
+          clang --verison
+          ldd --version
+
+      - name: Compile Rust
+        run: |
+          CC=clang RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang -Clink-arg=-fuse-ld=lld" cargo build --release
 
       - name: objdump
         run: |
@@ -35,7 +63,7 @@ jobs:
         run: |
           cat /etc/*release
           apt update -y
-          apt install -y clang-9 lld-9
+          apt install -y clang-9 lld-9 curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           rustup install 1.42.0
 
