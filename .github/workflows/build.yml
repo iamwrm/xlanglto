@@ -36,6 +36,7 @@ jobs:
           cat /etc/*release
           apt update -y
           apt install -y clang-9 lld-9
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
           rustup install 1.42.0
 
       - name: Compile Rust
