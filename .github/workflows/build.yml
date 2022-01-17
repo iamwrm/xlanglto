@@ -12,11 +12,12 @@ jobs:
       - name: Sys Info
         run: |
           cat /etc/*release
+          sudo apt install -y clang-9
+          rustup install 1.42.0
 
       - name: Compile Rust
         run: |
-          sudo apt install -y clang-9 ldd-9
-          CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo build --release
+          CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo +1.42.0 build --release
 
       - name: objdump
         run: |
@@ -24,7 +25,7 @@ jobs:
 
   ubuntu2110:
     runs-on: ubuntu-20.04
-    container: ubuntu-21.10
+    container: ubuntu:21.10
 
     steps:
       - uses: actions/checkout@v2
@@ -32,11 +33,12 @@ jobs:
       - name: Sys Info
         run: |
           cat /etc/*release
+          sudo apt install -y clang-9
+          rustup install 1.42.0
 
       - name: Compile Rust
         run: |
-          sudo apt install -y clang-9 ldd-9
-          CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo build --release
+          CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo +1.42.0 build --release
 
       - name: objdump
         run: |
