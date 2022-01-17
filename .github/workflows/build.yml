@@ -48,7 +48,7 @@ jobs:
         run: |
           objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
 
-  ubt2110_llvm13_nightly:
+  debiansid_llvm13_nightly:
     runs-on: ubuntu-20.04
     container: debian:sid
 
