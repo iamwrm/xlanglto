@@ -62,11 +62,14 @@ jobs:
 
       - name: Sys Info
         run: |
+          whoami
+          pwd
+          ls
           apt update -y
           apt install -y clang-9 lld-9 curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
-          rustup install 1.42.0
           source $HOME/.cargo/env
+          rustup install 1.42.0
           # -------------------
           cat /etc/*release
           rustc --version 
@@ -90,6 +93,9 @@ jobs:
 
       - name: Sys Info
         run: |
+          whoami
+          pwd
+          ls
           apt update -y
           apt install -y clang-13 lld-13 curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
