@@ -6,25 +6,6 @@ env:
   DEBIAN_FRONTEND: noninteractive
 
 jobs:
-  ubt2004_llvm9_142:
-    runs-on: ubuntu-20.04
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Sys Info
-        run: |
-          sudo apt update -y && sudo apt install -y clang-9 lld-9
-          rustup install 1.42.0
-
-      - name: Compile Rust
-        run: |
-          CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo +1.42.0 build --release
-
-      - name: objdump
-        run: |
-          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
-
   ubt2004_llvm10_146:
     runs-on: ubuntu-20.04
 
@@ -45,7 +26,7 @@ jobs:
         run: |
           objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
 
-  ubt2110_llvm13_latest:
+  ubt2110_llvm13_stable:
     runs-on: ubuntu-20.04
     container: ubuntu:21.10
 
@@ -67,25 +48,22 @@ jobs:
         run: |
           objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
 
-  arch_latest_latest:
+
+  debian_llvm13_nightly:
     runs-on: ubuntu-20.04
-    container: archlinux:latest
+    container: rust:nightly
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Sys Info
         run: |
-          pacman -Syu --noconfirm && pacman -S --noconfirm clang lld curl
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
-          PATH="$HOME/.cargo/bin:$PATH"
-          clang --version
-          rustc --version --verbose
+          apt update -y
+          apt install -y clang-13 lld-13 curl
 
       - name: Compile Rust
         run: |
-          PATH="$HOME/.cargo/bin:$PATH"
-          CC=clang RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang -Clink-arg=-fuse-ld=lld" cargo build --release
+          CC=clang-13 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-13 -Clink-arg=-fuse-ld=lld-13" cargo build --release
 
       - name: objdump
         run: |

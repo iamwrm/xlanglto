@@ -7,16 +7,16 @@ This project shows how to inline a call to C function from Rust.
 Build with cargo:
 
 ```bash
-CC=clang-9 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9" cargo build --release
+CC=clang-10 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-10 -Clink-arg=-fuse-ld=lld-10" cargo build --release
 # binary: ./target/release/xlanglto
 ```
 
 Or build without cargo:
 
 ```bash
-clang-9 mul.c -flto=thin -c -O2
+clang-10 mul.c -flto=thin -c -O2
 ar crs libmul.a mul.o
-rustc -Clinker-plugin-lto -L. -Copt-level=2 -Clinker=clang-9 -Clink-arg=-fuse-ld=lld-9 src/main.rs -o xlanglto
+rustc -Clinker-plugin-lto -L. -Copt-level=2 -Clinker=clang-10 -Clink-arg=-fuse-ld=lld-10 src/main.rs -o xlanglto
 # binary: ./xlanglto
 ```
 
@@ -32,8 +32,16 @@ $ objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3
    2eda5:	c3                   	retq
 ```
 
-# Dependencies
+# Tested Dependencies
 
-- `clang-9`
-- `lld-9`
-- `rustc 1.42.0`
+See more in github actions.
+
+## 1.46.0
+- `clang-10`
+- `lld-10`
+- `rustc 1.46.0`
+
+## 1.58 
+- `clang-13`
+- `lld-13`
+- `rustc 1.58.0`
