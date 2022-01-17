@@ -2,6 +2,9 @@ name: ci
 
 on: push
 
+env:
+  DEBIAN_FRONTEND: noninteractive
+
 jobs:
   ubuntu2004:
     runs-on: ubuntu-20.04
@@ -18,7 +21,6 @@ jobs:
           cat /etc/*release
           rustc --version 
           clang --version
-          ldd --version
 
       - name: Compile Rust
         run: |
@@ -43,7 +45,6 @@ jobs:
           cat /etc/*release
           rustc --version 
           clang --version
-          ldd --version
 
       - name: Compile Rust
         run: |
@@ -71,7 +72,6 @@ jobs:
           cat /etc/*release
           rustc --version 
           clang-9 --version
-          ldd-9 --version
 
       - name: Compile Rust
         run: |
@@ -101,7 +101,6 @@ jobs:
           cat /etc/*release
           rustc --version 
           clang-13 --version
-          ldd-13 --version
 
       - name: Compile Rust
         run: |
