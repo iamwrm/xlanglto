@@ -26,28 +26,6 @@ jobs:
         run: |
           objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3 -P3
 
-  ubt2110_llvm13_stable:
-    runs-on: ubuntu-20.04
-    container: ubuntu:21.10
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Sys Info
-        run: |
-          apt update -y
-          apt install -y clang-13 lld-13 curl
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
-
-      - name: Compile Rust
-        run: |
-          PATH="$HOME/.cargo/bin:$PATH"
-          CC=clang-13 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-13 -Clink-arg=-fuse-ld=lld-13" cargo build --release
-
-      - name: objdump
-        run: |
-          objdump -d ./target/release/xlanglto | grep "<multiply>:" -A3 -P3
-
   debiansid_llvm13_nightly:
     runs-on: ubuntu-20.04
     container: debian:sid
@@ -57,8 +35,7 @@ jobs:
 
       - name: Sys Info
         run: |
-          apt update -y
-          apt upgrade -y
+          apt update -y && apt upgrade -y
           apt install -y clang-13 lld-13 curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           PATH="$HOME/.cargo/bin:$PATH"
