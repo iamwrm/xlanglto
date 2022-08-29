@@ -46,15 +46,14 @@ jobs:
       - name: Dep install
         run: |
           apt update -y && apt upgrade -y
-          apt install -y clang-15 lld-15 curl
+          apt install -y clang-14 lld-14 curl
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           PATH="$HOME/.cargo/bin:$PATH"
-          rustup install nightly
 
       - name: Compile Rust
         run: |
           PATH="$HOME/.cargo/bin:$PATH"
-          CC=clang-15 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-15 -Clink-arg=-fuse-ld=lld-15" cargo +nightly build --release
+          CC=clang-14 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-14 -Clink-arg=-fuse-ld=lld-14" cargo build --release
 
       - name: objdump
         run: |
