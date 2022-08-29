@@ -41,7 +41,6 @@ jobs:
       - name: Sys Info
         run: |
           lscpu
-          free -h
 
       - name: Dep install
         run: |
