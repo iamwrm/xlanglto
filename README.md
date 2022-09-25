@@ -45,3 +45,5 @@ See more in github actions.
 - `clang-13`
 - `lld-13`
 - `rustc 1.58.0`
+
+https://doc.rust-lang.org/nightly/rustc/linker-plugin-lto.html

@@ -54,7 +54,7 @@ jobs:
         run: |
           PATH="$HOME/.cargo/bin:$PATH"
           
-          CC=clang-14 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-14 -Clink-arg=-fuse-ld=lld-14" cargo + 1.64.0 build --release
+          CC=clang-14 RUSTFLAGS="-Clinker-plugin-lto -Clinker=clang-14 -Clink-arg=-fuse-ld=lld-14" cargo +1.64.0 build --release
 
       - name: objdump
         run: |
